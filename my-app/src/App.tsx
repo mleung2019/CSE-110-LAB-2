@@ -14,8 +14,6 @@ import { dummyNotesList } from "./constants"; // Import the dummyNotesList from 
 
 // Theming
 import { ThemeContext, themes } from "./themeContext";
-import { create } from "domain";
-import { LanguageVariant } from "typescript";
 
 function App() {
   // noteList
@@ -55,6 +53,12 @@ function App() {
 
     // Reset fields after submission
     document.forms[0].reset();
+  };
+
+  // Note deletion button functionality
+  const deleteNoteHandler = (noteId: number) => {
+    const updatedList = noteList.filter((note) => note.id != noteId);
+    setNoteList(updatedList);
   };
 
   // Theming functionality
@@ -135,7 +139,7 @@ function App() {
                 <button onClick={() => handleLike(note.id)}>
                   {note.isLiked ? "❤️" : "♡"}
                 </button>
-                <button>x</button>
+                <button onClick={() => deleteNoteHandler(note.id)}>x</button>
               </div>
               <h2 contentEditable="true"> {note.title} </h2>
               <p contentEditable="true"> {note.content} </p>
