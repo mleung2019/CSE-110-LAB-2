@@ -20,7 +20,6 @@ body {
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-auto-rows: minmax(250px, auto);
   gap: 20px;
-  padding-left: 10px;
 }
 
 .favorites-list {
@@ -103,9 +102,10 @@ h2 {
 }
 
 select {
-  font-size: 16px;
+  font-size: 15px;
   max-width: 212px;
   margin-bottom: 10px;
+  height: 25px;
 }
 
 .dark-mode .note-form select {
@@ -113,7 +113,6 @@ select {
   background-color: rgb(76, 76, 76);
   border-width: thin;
   border-radius: 5px;
-  margin-bottom: 10px;
 }
 
 .note-form button {
@@ -151,8 +150,9 @@ select {
   border-radius: 5px;
 }
 
-.dark-mode .theme-container button:hover {
-  background-color: rgb(84, 84, 84);
+.dark-mode .theme-container button:hover,
+.dark-mode select:hover {
+  background-color: rgb(90, 90, 90);
 }
 
 .edit-buttons {

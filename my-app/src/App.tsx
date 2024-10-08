@@ -14,6 +14,8 @@ import { dummyNotesList } from "./constants"; // Import the dummyNotesList from 
 
 // Theming
 import { ThemeContext, themes } from "./themeContext";
+import { create } from "domain";
+import { LanguageVariant } from "typescript";
 
 function App() {
   // noteList
@@ -31,6 +33,28 @@ function App() {
 
     // Change noteList with updatedList
     setNoteList(updatedList);
+  };
+
+  // Note creation functionality
+  const initialNote = {
+    id: -1,
+    title: "",
+    content: "",
+    label: Label.other,
+    isLiked: false,
+  };
+  const [createNote, setCreateNote] = useState(initialNote);
+
+  // Note submit button functionality
+  const createNoteHandler = () => {
+    // Set note id by using the length of noteList
+    createNote.id = noteList.length + 1;
+    // Post will not be liked on creation
+    createNote.isLiked = false;
+    setNoteList([...noteList, createNote]);
+
+    // Reset fields after submission
+    document.forms[0].reset();
   };
 
   // Theming functionality
@@ -56,17 +80,48 @@ function App() {
           color: currentTheme.foreground,
         }}
       >
-        <form className="note-form">
+        <form
+          className="note-form"
+          onSubmit={(e) => {
+            // Prevent refresh on submit
+            e.preventDefault();
+            createNoteHandler();
+          }}
+        >
           {/* NOTE POST OPTIONS */}
-          <textarea placeholder="Note Title"></textarea>
-          <textarea placeholder="Note Content"></textarea>
+          <textarea
+            id="title"
+            placeholder="Note Title"
+            onChange={(event) =>
+              setCreateNote({ ...createNote, title: event.target.value })
+            }
+            required
+          ></textarea>
 
-          <select id="category" name="category">
-            <option value="">--Please choose a label--</option>
-            <option value="personal">Personal</option>
-            <option value="work">Work</option>
-            <option value="study">Study</option>
-            <option value="other">Other</option>
+          <textarea
+            id="content"
+            placeholder="Note Content"
+            onChange={(event) =>
+              setCreateNote({ ...createNote, content: event.target.value })
+            }
+            required
+          ></textarea>
+
+          <select
+            id="category"
+            name="category"
+            onChange={(event) =>
+              setCreateNote({
+                ...createNote,
+                label: event.target.value as Label,
+              })
+            }
+            required
+          >
+            <option value={Label.personal}>Personal</option>
+            <option value={Label.study}>Study</option>
+            <option value={Label.work}>Work</option>
+            <option value={Label.other}>Other</option>
           </select>
 
           {/* SUBMIT BUTTON */}
@@ -82,9 +137,9 @@ function App() {
                 </button>
                 <button>x</button>
               </div>
-              <h2> {note.title} </h2>
-              <p> {note.content} </p>
-              <p> {note.label} </p>
+              <h2 contentEditable="true"> {note.title} </h2>
+              <p contentEditable="true"> {note.content} </p>
+              <p contentEditable="true"> {note.label} </p>
             </div>
           ))}
         </div>
