@@ -81,9 +81,8 @@
         });
 
         document.getElementById("title").addEventListener("change", function () {
-            const title = document.getElementById("title").value;
             // Show alert if title exceeds 50 characters
-            if (title.length > 50) {
+            if (this.value.length > 50) {
                 alert("Title cannot exceed 50 characters.");
             }
         });
